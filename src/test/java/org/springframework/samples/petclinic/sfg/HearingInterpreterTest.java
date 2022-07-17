@@ -1,6 +1,5 @@
 package org.springframework.samples.petclinic.sfg;
 
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,8 +16,8 @@ public class HearingInterpreterTest {
     HearingInterpreter hearingInterpreter;
 
     @Test
-    public void whatIHear() {
-        String word = hearingInterpreter.whatIHear();
+    public void whatIHeard() {
+        String word = hearingInterpreter.whatIHeard();
         assertEquals("Laurel", word);
     }
 }
