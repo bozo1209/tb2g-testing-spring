@@ -13,8 +13,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 //@TestPropertySource("classpath:laurel.yaml")
 @TestPropertySource("classpath:laurel.properties")
-@ActiveProfiles("externalized")
-@SpringJUnitConfig(classes = {PropertiesTest.TestConfig.class})
+@ActiveProfiles("laurel-properties")
+@SpringJUnitConfig(classes = {PropertiesLaurelYamalTest.TestConfig.class})
 public class PropertiesLaurelYamalTest {
 
     @Configuration
