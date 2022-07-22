@@ -13,6 +13,7 @@ public class PropertiesWordProducer implements WordProducer {
     private String word;
 
     @Value("${say.word}")
+//    @Value("${word}") // for yamal file
     public void setWord(String word) {
         this.word = word;
     }
