@@ -1,5 +1,6 @@
 package org.springframework.samples.petclinic.web;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -35,12 +36,18 @@ class VetControllerTest {
     @InjectMocks
     VetController vetController;
 
-    @Test
-    void showVetList() {
+    List<Vet> vetList = new ArrayList<>();
+
+    @BeforeEach
+    void setUp() {
 //        given
-        List<Vet> vetList = new ArrayList<>();
+        vetList.add(new Vet());
 
         given(clinicService.findVets()).willReturn(vetList);
+    }
+
+    @Test
+    void showVetList() {
 //         when
         String result = vetController.showVetList(model);
 //        then
@@ -53,10 +60,6 @@ class VetControllerTest {
 
     @Test
     void showResourcesVetList() {
-//        given
-        List<Vet> vetList = new ArrayList<>();
-
-        given(clinicService.findVets()).willReturn(vetList);
 //         when
         List<Vet> result = vetController.showResourcesVetList().getVetList();
 //        then
