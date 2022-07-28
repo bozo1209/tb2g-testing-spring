@@ -3,11 +3,15 @@ package org.springframework.samples.petclinic.web;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.samples.petclinic.model.Owner;
 import org.springframework.samples.petclinic.service.ClinicService;
 import org.springframework.test.context.junit.jupiter.web.SpringJUnitWebConfig;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
+import java.util.List;
+
+import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -33,6 +37,35 @@ class OwnerControllerTest {
         mockMvc.perform(get("/owners").param("lastName", "don't find me!"))
                 .andExpect(status().isOk())
                 .andExpect(view().name("owners/findOwners"));
+    }
+
+    @Test
+    void testFindByNameReturnOneName() throws Exception{
+        Owner owner = new Owner();
+        owner.setLastName("test");
+        owner.setId(1);
+        given(clinicService.findOwnerByLastName("test")).willReturn(List.of(owner));
+
+        mockMvc.perform(get("/owners").param("lastName", "test"))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(view().name("redirect:/owners/" + owner.getId()));
+    }
+
+    @Test
+    void testFindByNameReturnList() throws Exception {
+        Owner owner = new Owner();
+        owner.setLastName("test");
+        owner.setId(1);
+        Owner owner2 = new Owner();
+        owner2.setLastName("test");
+        owner2.setId(2);
+
+        given(clinicService.findOwnerByLastName("")).willReturn(List.of(owner, owner2));
+
+        mockMvc.perform(get("/owners"))
+                .andExpect(status().isOk())
+                .andExpect(view().name("owners/ownersList"));
+
     }
 
     @Test
