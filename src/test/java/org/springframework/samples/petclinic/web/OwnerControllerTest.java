@@ -75,6 +75,30 @@ class OwnerControllerTest {
     }
 
     @Test
+    void testUpdateOwnerPostValid() throws Exception {
+        mockMvc.perform(post("/owners/{ownerId}/edit", 1)
+                    .param("firstName", "joe")
+                    .param("lastName", "doe")
+                    .param("address", "address")
+                    .param("city", "city")
+                    .param("telephone", "123456789")
+            ).andExpect(status().is3xxRedirection());
+    }
+
+    @Test
+    void testUpdateOwnerPostNotValid() throws Exception {
+        mockMvc.perform(post("/owners/{ownerId}/edit", 1)
+                    .param("firstName", "joe")
+                    .param("lastName", "doe")
+                    .param("city", "city")
+                ).andExpect(status().isOk())
+                .andExpect(model().attributeHasErrors("owner"))
+                .andExpect(model().attributeHasFieldErrors("owner", "address"))
+                .andExpect(model().attributeHasFieldErrors("owner", "telephone"))
+                .andExpect(view().name("owners/createOrUpdateOwnerForm"));
+    }
+
+    @Test
     void testFindByNameNotFound() throws Exception {
         mockMvc.perform(get("/owners").param("lastName", "don't find me!"))
                 .andExpect(status().isOk())
