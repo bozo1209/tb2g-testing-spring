@@ -82,7 +82,8 @@ class OwnerControllerTest {
                     .param("address", "address")
                     .param("city", "city")
                     .param("telephone", "123456789")
-            ).andExpect(status().is3xxRedirection());
+                ).andExpect(status().is3xxRedirection())
+                .andExpect(view().name("redirect:/owners/{ownerId}"));
     }
 
     @Test
@@ -95,7 +96,7 @@ class OwnerControllerTest {
                 .andExpect(model().attributeHasErrors("owner"))
                 .andExpect(model().attributeHasFieldErrors("owner", "address"))
                 .andExpect(model().attributeHasFieldErrors("owner", "telephone"))
-                .andExpect(view().name("owners/createOrUpdateOwnerForm"));
+                .andExpect(view().name(OwnerController.VIEWS_OWNER_CREATE_OR_UPDATE_FORM));
     }
 
     @Test
